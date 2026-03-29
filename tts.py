@@ -105,7 +105,7 @@ def find_voice_by_name(client: ElevenLabs, name: str):
     return None
 
 
-DEFAULT_VOICE_ID = "b7OWsPurC81KeahWq9j7"
+DEFAULT_VOICE_ID = "JBFqnCBsd6RMkjVDRZzb"
 
 
 def resolve_voice(client: ElevenLabs, voice_arg: str | None, voice_id_arg: str | None):
