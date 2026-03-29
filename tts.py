@@ -135,6 +135,35 @@ def list_voices(client: ElevenLabs):
     print()
 
 
+def show_credits(client: ElevenLabs):
+    """Print subscription credit usage and exit."""
+    try:
+        sub = client.user.subscription.get()
+    except Exception as exc:
+        if "missing_permissions" in str(exc):
+            print(
+                "Error: API key lacks 'user_read' permission.\n"
+                "Generate a key with that permission at https://elevenlabs.io/app/settings/api-keys",
+                file=sys.stderr,
+            )
+        else:
+            print(f"Error: {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    tier = getattr(sub, "tier", None) or "unknown"
+    limit = getattr(sub, "character_limit", 0)
+    used = getattr(sub, "character_count", 0)
+    remaining = max(limit - used, 0)
+    next_reset = getattr(sub, "next_character_count_reset_unix", None)
+
+    print(f"\n  Plan:       {tier}")
+    print(f"  Characters: {used:,} / {limit:,} used ({remaining:,} remaining)")
+    if next_reset:
+        reset_date = datetime.fromtimestamp(next_reset).strftime("%Y-%m-%d")
+        print(f"  Resets:     {reset_date}")
+    print()
+
+
 # ---------------------------------------------------------------------------
 # Output path
 # ---------------------------------------------------------------------------
@@ -198,6 +227,8 @@ def main():
     # Utility
     parser.add_argument("--list-voices", action="store_true",
                         help="List all available voices and exit.")
+    parser.add_argument("--credits", action="store_true",
+                        help="Show remaining character credits and exit.")
     parser.add_argument("--no-strip-markdown", action="store_true",
                         help="Skip Markdown stripping (pass raw text to TTS).")
     parser.add_argument("--api-key", metavar="KEY",
@@ -219,6 +250,10 @@ def main():
 
     if args.list_voices:
         list_voices(client)
+        sys.exit(0)
+
+    if args.credits:
+        show_credits(client)
         sys.exit(0)
 
     # Read input text
