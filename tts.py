@@ -135,20 +135,12 @@ def list_voices(client: ElevenLabs):
     print()
 
 
-def show_credits(client: ElevenLabs):
-    """Print subscription credit usage and exit."""
+def print_credits(client: ElevenLabs):
+    """Fetch and print subscription credit usage. Returns True on success."""
     try:
         sub = client.user.subscription.get()
-    except Exception as exc:
-        if "missing_permissions" in str(exc):
-            print(
-                "Error: API key lacks 'user_read' permission.\n"
-                "Generate a key with that permission at https://elevenlabs.io/app/settings/api-keys",
-                file=sys.stderr,
-            )
-        else:
-            print(f"Error: {exc}", file=sys.stderr)
-        sys.exit(1)
+    except Exception:
+        return False
 
     tier = getattr(sub, "tier", None) or "unknown"
     limit = getattr(sub, "character_limit", 0)
@@ -162,6 +154,7 @@ def show_credits(client: ElevenLabs):
         reset_date = datetime.fromtimestamp(next_reset).strftime("%Y-%m-%d")
         print(f"  Resets:     {reset_date}")
     print()
+    return True
 
 
 # ---------------------------------------------------------------------------
@@ -253,7 +246,13 @@ def main():
         sys.exit(0)
 
     if args.credits:
-        show_credits(client)
+        if not print_credits(client):
+            print(
+                "Error: could not fetch credits. Ensure API key has 'user_read' permission.\n"
+                "https://elevenlabs.io/app/settings/api-keys",
+                file=sys.stderr,
+            )
+            sys.exit(1)
         sys.exit(0)
 
     # Read input text
@@ -304,6 +303,9 @@ def main():
     out_path = build_output_path(args.output_dir, source_name)
     out_path.write_bytes(audio_bytes)
     print(f"Saved:  {out_path}")
+
+    # Show remaining credits (best-effort, don't fail on error)
+    print_credits(client)
 
 
 if __name__ == "__main__":
