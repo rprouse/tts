@@ -49,7 +49,7 @@ Output files are auto-named with a timestamp - e.g. `notes_20260327_142301.mp3`.
 
 ## API Key
 
-Log in, then click **Developers** in the left sidebar and select the **API Keys** tab. Or go directly to: **https://elevenlabs.io/app/settings/api-keys**
+Log in, then click **Developers** in the left sidebar and select the **API Keys** tab. Or go directly to: [ElevenLabs API Keys](https://elevenlabs.io/app/settings/api-keys)
 
 From there:
 
@@ -67,6 +67,6 @@ export ELEVENLABS_API_KEY=your_key_here
 
 Or drop it in a `.env` file in the same directory as `tts.py`:
 
-```
+```text
 ELEVENLABS_API_KEY=your_key_here
 ```
