@@ -33,6 +33,9 @@ uv run tts.py -f notes.md --voice "Rachel" --output-dir ~/Audio
 
 # See all available voices
 uv run tts.py --list-voices
+
+# Check remaining character credits
+uv run tts.py --credits
 ```
 
 Output files are auto-named with a timestamp - e.g. `notes_20260327_142301.mp3`.
@@ -45,6 +48,8 @@ Output files are auto-named with a timestamp - e.g. `notes_20260327_142301.mp3`.
 
 **Model selection** - defaults to `eleven_turbo_v2_5` (fast, good quality). Pass `--model eleven_multilingual_v2` for highest quality, `eleven_v3` for most expressive, or `eleven_flash_v2_5` for minimum latency.
 
+**Credit tracking** - `--credits` shows your plan tier, character usage/remaining, and next reset date. A credits summary is also displayed after every audio generation. Requires the `user_read` API key permission.
+
 **`--no-strip-markdown`** flag if you ever want to pass raw text through without any preprocessing.
 
 ## API Key
@@ -55,7 +60,7 @@ From there:
 
 1. Click **+ Create API Key**
 2. Give it a name (e.g. "tts-cli")
-3. Set permissions - for the script, you need at minimum **Text to Speech** and **Voice list access**
+3. Set permissions - for the script, you need at minimum **Text to Speech**, **Voice list access**, and **user_read** (for credit tracking)
 4. Click **Create**
 5. **Copy the key immediately** - ElevenLabs only shows it once. If you lose it, you'll need to generate a new one.
 
