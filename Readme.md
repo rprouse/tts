@@ -41,7 +41,7 @@ Output files are auto-named with a timestamp - e.g. `notes_20260327_142301.mp3`.
 
 **Markdown stripping** - headings, bold/italic, links, code blocks, tables, and list markers are all cleaned before sending to the API so the TTS output doesn't read out `##` or `**`.
 
-**Voice selection** - `--voice` does a name search (partial match, case-insensitive), `--voice-id` uses an exact ElevenLabs voice ID if you know it. `--list-voices` dumps all voices with their IDs.
+**Voice selection** - defaults to "Tom - Dramatic Storyteller" (`b7OWsPurC81KeahWq9j7`). `--voice` does a name search (partial match, case-insensitive), `--voice-id` uses an exact ElevenLabs voice ID if you know it. `--list-voices` dumps all voices with their IDs.
 
 **Model selection** - defaults to `eleven_turbo_v2_5` (fast, good quality). Pass `--model eleven_multilingual_v2` for highest quality, `eleven_v3` for most expressive, or `eleven_flash_v2_5` for minimum latency.
 

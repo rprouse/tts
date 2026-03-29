@@ -105,22 +105,25 @@ def find_voice_by_name(client: ElevenLabs, name: str):
     return None
 
 
+DEFAULT_VOICE_ID = "b7OWsPurC81KeahWq9j7"
+
+
 def resolve_voice(client: ElevenLabs, voice_arg: str | None, voice_id_arg: str | None):
     """
     Return (voice_id, voice_name).
-    Priority: --voice-id > --voice (name search) > default "Rachel".
+    Priority: --voice-id > --voice (name search) > default voice ID.
     """
     if voice_id_arg:
         return voice_id_arg, voice_id_arg
 
-    search_term = voice_arg or "Rachel"
-    voice = find_voice_by_name(client, search_term)
-    if voice:
-        return voice.voice_id, voice.name
+    if voice_arg:
+        voice = find_voice_by_name(client, voice_arg)
+        if voice:
+            return voice.voice_id, voice.name
+        print(f"Warning: voice '{voice_arg}' not found; attempting anyway.", file=sys.stderr)
+        return voice_arg, voice_arg
 
-    # Fallback: use search term as-is (will fail at API if invalid)
-    print(f"Warning: voice '{search_term}' not found; attempting anyway.", file=sys.stderr)
-    return search_term, search_term
+    return DEFAULT_VOICE_ID, DEFAULT_VOICE_ID
 
 
 def list_voices(client: ElevenLabs):
