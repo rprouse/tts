@@ -12,7 +12,7 @@ Usage:
     tts.py -f article.md --output-dir ~/Audio --model eleven_turbo_v2_5
 
 Requirements:
-    pip install elevenlabs python-dotenv
+    uv run tts.py  (dependencies installed automatically via pyproject.toml)
 
 API key:
     Set ELEVENLABS_API_KEY in your environment or a .env file.

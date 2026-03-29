@@ -3,36 +3,36 @@
 ## Setup
 
 ```bash
-pip install elevenlabs python-dotenv
 export ELEVENLABS_API_KEY=your_key_here
-chmod +x tts.py
 ```
 
 Or put the key in a `.env` file in the same directory.
+
+Dependencies are managed by [uv](https://docs.astral.sh/uv/) and installed automatically on first run.
 
 ## Usage
 
 ```bash
 # Inline text
-python tts.py "Hello world"
+uv run tts.py "Hello world"
 
 # From a Markdown file
-python tts.py -f README.md
+uv run tts.py -f README.md
 
 # Pipe from stdin
-cat article.md | python tts.py
+cat article.md | uv run tts.py
 
 # Select voice by name (fuzzy search)
-python tts.py -f notes.md --voice "Adam"
+uv run tts.py -f notes.md --voice "Adam"
 
 # Select voice by exact ID (from --list-voices)
-python tts.py "Hello" --voice-id JBFqnCBsd6RMkjVDRZzb
+uv run tts.py "Hello" --voice-id JBFqnCBsd6RMkjVDRZzb
 
 # Specify output directory
-python tts.py -f notes.md --voice "Rachel" --output-dir ~/Audio
+uv run tts.py -f notes.md --voice "Rachel" --output-dir ~/Audio
 
 # See all available voices
-python tts.py --list-voices
+uv run tts.py --list-voices
 ```
 
 Output files are auto-named with a timestamp - e.g. `notes_20260327_142301.mp3`.
